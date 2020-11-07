@@ -3,7 +3,7 @@
 
 $db['db_host'] = "127.0.0.1";
 $db['db_user'] = "root";
-$db['db_pass'] = "";
+$db['db_pass'] = "199517";
 $db['db_name'] = "cms";
 
 foreach ($db as $key => $value) {
