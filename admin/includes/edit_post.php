@@ -52,6 +52,8 @@ if(isset($_POST['update_post'])){
 
     $update_post_query = mysqli_query($connection,$query);
     confirmQuery($update_post_query);
+    echo"<p class='bg-success'>Post Updated. <a href='../post.php?p_id={$the_post_id} '>View Post</a> or <a href='posts.php'>Edit More Posts</p>";
+    
 }
 ?>
 <form action="" method="post" enctype="multipart/form-data">
@@ -103,7 +105,7 @@ if(isset($_POST['update_post'])){
     </div>
     <div class="form-group">
         <label for="post_content">Post Content</label>
-        <textarea type="text" class="form-control" name="post_content" id="" cols="30" rows="10">
+        <textarea type="text" class="form-control" name="post_content" id="body" cols="30" rows="10">
         <?php echo $post_content; ?>
         </textarea>
     </div>

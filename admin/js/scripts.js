@@ -1,11 +1,20 @@
-$(document).ready(function(){
-        ClassicEditor
-        .create( document.querySelector( '#body' ) )
-        .then( editor => {
-                console.log( editor );
-        } )
-        .catch( error => {
-                console.error( error );
-        } );
+// 文字編輯器
+tinymce.init({
+    selector: 'textarea'
+});
+$(document).ready(function () {
+    $('#myTable').DataTable();
+    $('#selectAllBoxes').click(function (event) {
+        if (this.checked) {
+            $('.checkBoxes').each(function () {
+                this.checked = true;
+            });
 
+        } else {
+            $('.checkBoxes').each(function () {
+                this.checked = false;
+            });
+        }
+
+    });
 });
