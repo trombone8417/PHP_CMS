@@ -1,3 +1,4 @@
+<!-- 新增使用者 -->
 <?php
 if(isset($_POST['create_user'])){
     
@@ -24,19 +25,19 @@ if(isset($_POST['create_user'])){
 
 <form action="" method="post" enctype="multipart/form-data">
 <div class="form-group">
-        <label for="title">Firstname</label>
+        <label for="title">姓名</label>
         <input type="text" class="form-control" name="user_firstname">
     </div>
     <div class="form-group">
-        <label for="post_status">Lastname</label>
+        <label for="post_status">姓氏</label>
         <input type="text" class="form-control" name="user_lastname">
     </div>
     
     <div class="form-group">
         <select name="user_role" id="">
-        <option value="subscriber">Select Options</option>
-        <option value="admin">Admin</option>
-        <option value="subscriber">Subscriber</option>
+        <option value="subscriber">選擇權限(預設訂閱者)</option>
+        <option value="admin">管理者</option>
+        <option value="subscriber">訂閱者</option>
         </select>
     </div>
 <!--     
@@ -47,7 +48,7 @@ if(isset($_POST['create_user'])){
     
     
     <div class="form-group">
-        <label for="post_tags">Username</label>
+        <label for="post_tags">帳號</label>
         <input type="text" class="form-control" name="username">
     </div>
     <div class="form-group">
@@ -55,7 +56,7 @@ if(isset($_POST['create_user'])){
         <input type="email" class="form-control" name="user_email">
     </div>
     <div class="form-group">
-        <label for="post_content">Password</label>
+        <label for="post_content">密碼</label>
         <input type="password" class="form-control" name="user_password">
     </div>
 

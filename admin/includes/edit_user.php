@@ -1,3 +1,4 @@
+<!-- 編輯使用者 -->
 <?php
 
 if(isset($_GET['edit_user'])){
@@ -54,11 +55,11 @@ if(isset($_POST['edit_user'])){
 
 <form action="" method="post" enctype="multipart/form-data">
 <div class="form-group">
-        <label for="title">Firstname</label>
+        <label for="title">姓名</label>
         <input type="text" value="<?php echo $user_firstname;?>" class="form-control" name="user_firstname">
     </div>
     <div class="form-group">
-        <label for="post_status">Lastname</label>
+        <label for="post_status">姓氏</label>
         <input type="text" value="<?php echo $user_lastname;?>" class="form-control" name="user_lastname">
     </div>
     
@@ -85,7 +86,7 @@ if(isset($_POST['edit_user'])){
     
     
     <div class="form-group">
-        <label for="post_tags">Username</label>
+        <label for="post_tags">帳號</label>
         <input type="text" value="<?php echo $username;?>" class="form-control" name="username">
     </div>
     <div class="form-group">
@@ -93,7 +94,7 @@ if(isset($_POST['edit_user'])){
         <input type="email" value="<?php echo $user_email;?>" class="form-control" name="user_email">
     </div>
     <div class="form-group">
-        <label for="post_content">Password</label>
+        <label for="post_content">密碼</label>
         <input type="password" value="<?php echo $user_password;?>" class="form-control" name="user_password">
     </div>
 

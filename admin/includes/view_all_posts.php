@@ -1,3 +1,4 @@
+<!-- 所有文章列表 -->
 <?php
 
 // checkbox批次處理
@@ -47,7 +48,7 @@ if (isset($_POST['checkBoxArray'])) {
         </div>
         <div class="col-xs-4">
             <input type="submit" name="submit" class="btn btn-success" value="Apply">
-            <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a>
+            <a class="btn btn-primary" href="posts.php?source=add_post">新增文章</a>
         </div>
 
         <thead>
@@ -105,8 +106,11 @@ if (isset($_POST['checkBoxArray'])) {
                 echo "<td>$post_tags</td>";
                 echo "<td>$post_comment_count</td>";
                 echo "<td>$post_date</td>";
+                // 查看文章
                 echo "<td><a href='../post.php?p_id={$post_id}'>View Post</a></td>";
+                // 編輯文章
                 echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
+                // 確認是否刪除
                 echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete'); \" href='posts.php?delete={$post_id}'>Delete</a></td>";
                 echo "</tr>";
             }

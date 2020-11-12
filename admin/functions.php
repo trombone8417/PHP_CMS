@@ -1,8 +1,9 @@
 <?php
-
+// 確認SQL是否執行成功
 function confirmQuery($result) {
     global $connection;
     if (!$result) {
+        // 未執行成功，報錯
         die("QUERY FAILED ." . mysqli_error($connection));
        
     }
@@ -14,8 +15,9 @@ function insert_categories()
     global $connection;
     if (isset($_POST['submit'])) {
         $cat_title = $_POST['cat_title'];
+        // 判斷類別標題是否為空
         if ($cat_title == "" || empty($cat_title)) {
-            echo "This field should not be empty";
+            echo "類別標題不得為空";
         } else {
             $query = "INSERT INTO categories(cat_title) ";
             $query .= "VALUE('{$cat_title}')";
@@ -28,6 +30,7 @@ function insert_categories()
     }
 }
 
+// 顯示所有類別
 function findAllCategories()
 {
     global $connection;
@@ -39,12 +42,13 @@ function findAllCategories()
         echo "<tr>";
         echo "<td>{$cat_id}</td>";
         echo "<td>{$cat_title}</td>";
-        echo "<td><a href='categories.php?delete={$cat_id}'>Delete</a></td>";
-        echo "<td><a href='categories.php?edit={$cat_id}'>Edit</a></td>";
+        echo "<td><a href='categories.php?delete={$cat_id}'>刪除</a></td>";
+        echo "<td><a href='categories.php?edit={$cat_id}'>編輯</a></td>";
         echo "</tr>";
     }
 }
 
+// 刪除類別
 function deleteCategories()
 {
     global $connection;

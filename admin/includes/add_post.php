@@ -1,3 +1,4 @@
+<!-- 發佈文章 -->
 <?php
 if(isset($_POST['create_post'])){
     
@@ -10,7 +11,7 @@ if(isset($_POST['create_post'])){
     $post_tags = $_POST['post_tags'];
     $post_content = $_POST['post_content'];
     $post_date = date('d-m-y');
-
+// 上傳圖片
     move_uploaded_file($post_image_temp, "../images/$post_image");
 
     $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags,  post_status) ";
@@ -19,6 +20,7 @@ if(isset($_POST['create_post'])){
     $create_post_query = mysqli_query($connection,$query);
     confirmQuery($create_post_query);
     $the_post_id = mysqli_insert_id($connection);
+    // 成功發佈
     echo"<p class='bg-success'>Post Created. <a href='../post.php?p_id={$the_post_id} '>View Post</a> or <a href='posts.php'>Edit More Posts</p>";
 }
 ?>
@@ -30,10 +32,14 @@ if(isset($_POST['create_post'])){
         <input type="text" class="form-control" name="title">
     </div>
     <div class="form-group">
+    <!-- 下拉選單 -->
         <select name="post_category" id="">
         <?php
+        // 列出所有類別
             $query = "SELECT * FROM categories ";
+            // 查詢
             $select_categories = mysqli_query($connection, $query);
+            // 確認SQL是否正確
             confirmQuery($select_categories);
             while ($row = mysqli_fetch_assoc($select_categories)) {
                 $cat_id = $row['cat_id'];
@@ -44,18 +50,18 @@ if(isset($_POST['create_post'])){
         </select>
     </div>
     <div class="form-group">
-        <label for="title">Post Author</label>
+        <label for="title">作者</label>
         <input type="text" class="form-control" name="author">
     </div>
     <div class="form-group">
         <select name="post_status" id="">
-        <option value="draft">Post Status</option>
-        <option value="published">Published</option>
-        <option value="draft">Draft</option>
+        <option value="draft">發佈狀態(預設私人)</option>
+        <option value="published">公開</option>
+        <option value="draft">私人</option>
         </select>
     </div>
     <div class="form-group">
-        <label for="post_image">Post Image</label>
+        <label for="post_image">圖片</label>
         <input type="file" class="form-control" name="image">
     </div>
     
@@ -65,7 +71,7 @@ if(isset($_POST['create_post'])){
         <input type="text" class="form-control" name="post_tags">
     </div>
     <div class="form-group">
-        <label for="post_content">Post Content</label>
+        <label for="post_content">內容</label>
         <textarea type="text" class="form-control" name="post_content" id="body" cols="30" rows="10"></textarea>
     </div>
 

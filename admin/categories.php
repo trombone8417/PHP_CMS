@@ -1,3 +1,4 @@
+<!-- 類別頁面 -->
 <?php include "includes/admin_header.php" ?>
     <div id="wrapper">
 
@@ -16,16 +17,18 @@
                             <small>Author</small>
                         </h1>
                         <div class="col-xs-6">
+                            <!-- 新增類別函數 -->
                             <?php insert_categories(); ?>
                             <form action="" method="post">
                                 <div class="form-group">
-                                    <label for="cat-title">Add Category</label>
+                                    <label for="cat-title">新增類別</label>
                                     <input class="form-control" type="text" name="cat_title">
                                 </div>
                                 <div class="form-group">
                                     <input class="btn btn-primary" type="submit" name="submit" value="Add Category">
                                 </div>
                             </form>
+                            <!-- 編輯 -->
                         <?php 
                         if(isset($_GET['edit'])){
                             $cat_id = $_GET['edit'];
@@ -43,10 +46,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <!-- 列出所有項目 -->
                                 <?php
-                                // 列出所有項目
+                                
                                 findAllCategories();
                                 ?>
+                                <!-- 刪除類別 -->
                                 <?php
                                 deleteCategories();
                                 ?>

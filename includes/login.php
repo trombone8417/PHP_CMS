@@ -26,7 +26,7 @@ if (isset($_POST['login'])) {
     }
     // 確認加密密碼
     $password = crypt($password, $db_user_password);
-// 驗證使用者名稱以及密碼是否正確
+    // 驗證使用者名稱以及密碼是否正確
     if ($username === $db_username && $password === $db_user_password) {
         // SESSION儲存資訊
         $_SESSION['username'] = $db_username;

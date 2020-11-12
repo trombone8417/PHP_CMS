@@ -1,9 +1,11 @@
+<!-- 編輯文章 -->
 <?php
 
 if(isset($_GET['p_id'])){
+    // 文章 ID
     $the_post_id = $_GET['p_id'];
 }
-
+// 文章ID內容
 $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
 $select_posts_by_id = mysqli_query($connection, $query);
 while ($row = mysqli_fetch_assoc($select_posts_by_id)) {
@@ -18,7 +20,7 @@ while ($row = mysqli_fetch_assoc($select_posts_by_id)) {
     $post_comment_count = $row['post_comment_count'];
     $post_date = $row['post_date'];
 }
-
+// 更新文章ID
 if(isset($_POST['update_post'])){
 
     $post_author = $_POST['post_author'];
@@ -30,7 +32,9 @@ if(isset($_POST['update_post'])){
     
     $post_content = $_POST['post_content'];
     $post_tags = $_POST['post_tags'];
+    // 上傳圖片
     move_uploaded_file($post_image_temp, "../images/$post_image");
+    // 若未上傳圖片的話，選擇原本圖片相對位址
     if (empty($post_image)) {
         $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
         $select_image = mysqli_query($connection, $query);
@@ -38,7 +42,7 @@ if(isset($_POST['update_post'])){
             $post_image = $row['post_image'];
         }
     }
-
+// 更新圖片SQL
     $query = "UPDATE posts SET ";
     $query .="post_title = '{$post_title}', ";
     $query .="post_category_id = {$post_category_id}, ";
@@ -52,6 +56,7 @@ if(isset($_POST['update_post'])){
 
     $update_post_query = mysqli_query($connection,$query);
     confirmQuery($update_post_query);
+    // 更新成功
     echo"<p class='bg-success'>Post Updated. <a href='../post.php?p_id={$the_post_id} '>View Post</a> or <a href='posts.php'>Edit More Posts</p>";
     
 }
@@ -59,7 +64,7 @@ if(isset($_POST['update_post'])){
 <form action="" method="post" enctype="multipart/form-data">
 
     <div class="form-group">
-        <label for="title">Post Title</label>
+        <label for="title">文章標題</label>
         <input value="<?php echo $post_title; ?>" type="text" class="form-control" name="post_title">
     </div>
     <div class="form-group">
@@ -77,9 +82,10 @@ if(isset($_POST['update_post'])){
         </select>
     </div>
     <div class="form-group">
-        <label for="post_author">Post Author</label>
+        <label for="post_author">作者</label>
         <input value="<?php echo $post_author; ?>" type="text" class="form-control" name="post_author">
     </div>
+    <!-- 下拉選單是否公開 -->
     <select name="post_status" id="">
         <option value='<?php echo $post_status; ?>'><?php echo $post_status; ?></option>
         <?php
@@ -104,7 +110,7 @@ if(isset($_POST['update_post'])){
         <input value="<?php echo $post_tags; ?>" type="text" class="form-control" name="post_tags">
     </div>
     <div class="form-group">
-        <label for="post_content">Post Content</label>
+        <label for="post_content">內容</label>
         <textarea type="text" class="form-control" name="post_content" id="body" cols="30" rows="10">
         <?php echo $post_content; ?>
         </textarea>
