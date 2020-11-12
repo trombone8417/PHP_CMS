@@ -1,3 +1,4 @@
+<!-- 註冊頁面 -->
 <?php include "includes/db.php"; ?>
 <?php include "includes/header.php"; ?>
 <?php
@@ -22,6 +23,7 @@ if (isset($_POST['submit'])) {
         }
         $row = mysqli_fetch_array($select_randsalt_query);
         $salt = $row['randSalt'];
+        // 加密
         $password = crypt($password, $salt);
 
         $query = "INSERT INTO users (username, user_email, user_password, user_role) ";
@@ -31,9 +33,9 @@ if (isset($_POST['submit'])) {
             die("QUERY FAILED " . mysqli_error($connection) . ' ' . mysqli_errno($connection));
         }
 
-        $message = "Your Registration has been submitted";
+        $message = "註冊成功";
     } else {
-        $message = "Fields cannot be empty ";
+        $message = "欄位不得為空 ";
     }
 } else {
     $message = "";

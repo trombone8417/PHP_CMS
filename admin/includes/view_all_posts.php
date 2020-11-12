@@ -1,26 +1,31 @@
 <?php
+
+// checkbox批次處理
 if (isset($_POST['checkBoxArray'])) {
+    // 陣列處理
     foreach ($_POST['checkBoxArray'] as $postValueId) {
+        // 選擇模式
         $bulk_options = $_POST['bulk_options'];
         switch ($bulk_options) {
+            // 公開發布
             case 'published':
                 $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id = {$postValueId} ";
                 $update_to_published_status = mysqli_query($connection, $query);
                 confirmQuery($update_to_published_status);
                 break;
-
+            // 私人不公布
             case 'draft':
                 $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id = {$postValueId} ";
                 $update_to_draft_status = mysqli_query($connection, $query);
                 confirmQuery($update_to_draft_status);
                 break;
-
+            // 刪除
             case 'delete':
                 $query = "DELETE FROM posts WHERE post_id = {$postValueId} ";
                 $update_to_delete_status = mysqli_query($connection, $query);
                 confirmQuery($update_to_delete_status);
                 break;
-
+            // 預設
             default:
                 # code...
                 break;

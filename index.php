@@ -1,7 +1,8 @@
+<!-- 首頁 -->
 <?php include "includes/db.php"; ?>
 <?php include "includes/header.php"; ?>
 
-<!-- Navigation -->
+<!-- Navigation 上方導覽列 -->
 <?php include "includes/navigation.php"; ?>
 <!-- Page Content -->
 <div class="container">
@@ -36,7 +37,7 @@
                         <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
                     </h2>
                     <p class="lead">
-                        by <a href="index.php"><?php echo $post_author ?></a>
+                        by <a href="author_posts.php?author=<?php echo $post_author ?>&p_id=<?php echo $post_id; ?>"><?php echo $post_author ?></a>
                     </p>
                     <p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?></p>
                     <hr>

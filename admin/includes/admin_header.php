@@ -3,7 +3,9 @@
 <?php include "../includes/db.php"?>
 <?php include "functions.php"?>
 <?php
+// 確認是否登入
 if (!isset($_SESSION['user_role'])) {
+    // 未登入導回首頁
     header("Location: ../index.php");
 }
 
@@ -20,7 +22,7 @@ if (!isset($_SESSION['user_role'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>管理者</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -37,10 +39,11 @@ if (!isset($_SESSION['user_role'])) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- 圖表 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-    <!-- DataTables v1.10.16 -->
+    <!-- 資料表 DataTables v1.10.16 -->
   <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet" />
   <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
   

@@ -1,4 +1,5 @@
     
+    <!-- Navigation 上方導覽列 -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -9,7 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="./index.php">CMS Front</a>
+                <a class="navbar-brand" href="./index.php">Blog首頁</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -24,10 +25,10 @@
                     ?>
 
                      <li>
-                        <a href="admin">Admin</a>
+                        <a href="admin">管理者介面</a>
                     </li>
                     <li>
-                        <a href="registration.php">Registration</a>
+                        <a href="registration.php">註冊</a>
                     </li>
 
                     <?php

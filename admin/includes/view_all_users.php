@@ -55,10 +55,10 @@
                 echo "<td><a href='../post.php?p_id=$post_id'>$post_title</a></td>";
             } */
            
-            echo "<td><a href='users.php?change_to_admin={$user_id}'>Admin</a></td>";
-            echo "<td><a href='users.php?change_to_sub={$user_id}'>Subscriber</a></td>";
-            echo "<td><a href='users.php?source=edit_user&edit_user={$user_id}'>Edit</a></td>";
-            echo "<td><a href='users.php?delete={$user_id}'>Delete</a></td>";
+            echo "<td><a href='users.php?change_to_admin={$user_id}'>管理者權限</a></td>";
+            echo "<td><a href='users.php?change_to_sub={$user_id}'>訂閱者模式</a></td>";
+            echo "<td><a href='users.php?source=edit_user&edit_user={$user_id}'>編輯</a></td>";
+            echo "<td><a href='users.php?delete={$user_id}'>刪除</a></td>";
             echo "</tr>";
             
         }
@@ -70,6 +70,7 @@
 
 <?php
 
+// 使用者給予管理者權限
 if (isset($_GET['change_to_admin'])) {
     $the_user_id = $_GET['change_to_admin'];
     $query = "UPDATE users SET user_role = 'admin' WHERE user_id = $the_user_id ";
@@ -77,6 +78,7 @@ if (isset($_GET['change_to_admin'])) {
     header("Location: users.php");
 }
 
+// 使用者改成訂閱者模式(預設)
 if (isset($_GET['change_to_sub'])) {
     $the_user_id = $_GET['change_to_sub'];
     $query = "UPDATE users SET user_role = 'subscriber' WHERE user_id = $the_user_id ";
@@ -84,6 +86,7 @@ if (isset($_GET['change_to_sub'])) {
     header("Location: users.php");
 }
 
+// 使用者刪除
 if (isset($_GET['delete'])) {
     $the_user_id = $_GET['delete'];
     $query = "DELETE FROM users WHERE user_id = {$the_user_id} ";
