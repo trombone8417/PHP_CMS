@@ -8,25 +8,48 @@ if (isset($_POST['checkBoxArray'])) {
         // 選擇模式
         $bulk_options = $_POST['bulk_options'];
         switch ($bulk_options) {
-            // 公開發布
+                // 公開發布
             case 'published':
                 $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id = {$postValueId} ";
                 $update_to_published_status = mysqli_query($connection, $query);
                 confirmQuery($update_to_published_status);
                 break;
-            // 私人不公布
+                // 私人不公布
             case 'draft':
                 $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id = {$postValueId} ";
                 $update_to_draft_status = mysqli_query($connection, $query);
                 confirmQuery($update_to_draft_status);
                 break;
-            // 刪除
+                // 刪除
             case 'delete':
                 $query = "DELETE FROM posts WHERE post_id = {$postValueId} ";
                 $update_to_delete_status = mysqli_query($connection, $query);
                 confirmQuery($update_to_delete_status);
                 break;
-            // 預設
+
+                // 批次複製
+            case 'clone':
+                $query = "SELECT * FROM posts WHERE post_id = {$postValueId} ";
+                $select_post_query = mysqli_query($connection, $query);
+
+                while ($row = mysqli_fetch_array($select_post_query)) {
+                    $post_title = $row['post_title'];
+                    $post_category_id = $row['post_category_id'];
+                    $post_date = $row['post_date'];
+                    $post_author = $row['post_author'];
+                    $post_status = $row['post_status'];
+                    $post_image = $row['post_image'];
+                    $post_tags = $row['post_tags'];
+                    $post_content = $row['post_content'];
+                }
+                $query = "INSERT INTO posts(post_category_id, post_title, post_date, post_author, post_status, post_image, post_tags, post_content) ";
+                $query .= "VALUES({$post_category_id}, '{$post_title}', now(), '{$post_author}', '{$post_status}', '{$post_image}', '{$post_tags}', '{$post_content}')";
+                $copy_query = mysqli_query($connection, $query);
+
+                confirmQuery($select_post_query);
+
+                break;
+                // 預設
             default:
                 # code...
                 break;
@@ -37,13 +60,14 @@ if (isset($_POST['checkBoxArray'])) {
 
 <form action="" method='post'>
 
-    <table id="myTable" class="table table-bordered table-hover" >
+    <table id="myTable" class="table table-bordered table-hover">
         <div id="bulkOptionContainer" class="col-xs-4">
             <select class="form-control" name="bulk_options" id="">
-                <option value="">Select Options</option>
-                <option value="published">Publish</option>
-                <option value="draft">Draft</option>
-                <option value="delete">Delete</option>
+                <option value="">選擇狀態</option>
+                <option value="published">公開</option>
+                <option value="draft">私人</option>
+                <option value="delete">刪除</option>
+                <option value="clone">複製</option>
             </select>
         </div>
         <div class="col-xs-4">
@@ -63,6 +87,7 @@ if (isset($_POST['checkBoxArray'])) {
                 <th>Tags</th>
                 <th>Comments</th>
                 <th>Date</th>
+                <th>View Count</th>
                 <th>View Post</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -70,7 +95,7 @@ if (isset($_POST['checkBoxArray'])) {
         </thead>
         <tbody>
             <?php
-            $query = "SELECT * FROM posts";
+            $query = "SELECT * FROM posts ORDER BY post_id DESC ";
             $select_posts = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($select_posts)) {
                 $post_id = $row['post_id'];
@@ -82,6 +107,7 @@ if (isset($_POST['checkBoxArray'])) {
                 $post_tags = $row['post_tags'];
                 $post_comment_count = $row['post_comment_count'];
                 $post_date = $row['post_date'];
+                $post_views_count = $row['post_views_count'];
 
                 echo "<tr>";
             ?>
@@ -106,6 +132,8 @@ if (isset($_POST['checkBoxArray'])) {
                 echo "<td>$post_tags</td>";
                 echo "<td>$post_comment_count</td>";
                 echo "<td>$post_date</td>";
+                echo "<td>$post_views_count</td>";
+                
                 // 查看文章
                 echo "<td><a href='../post.php?p_id={$post_id}'>View Post</a></td>";
                 // 編輯文章

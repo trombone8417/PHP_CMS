@@ -59,7 +59,7 @@ if(isset($_POST['create_user'])){
         <label for="post_content">密碼</label>
         <input type="password" class="form-control" name="user_password">
     </div>
-
+    
     <div class="form-group">
         <input class="btn btn-primary" type="submit" name="create_user" value="Add User">
     </div>

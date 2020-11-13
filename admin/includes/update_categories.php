@@ -28,6 +28,6 @@
     ?>
     </div>
     <div class="form-group">
-        <input class="btn btn-primary" type="submit" name="update_category" value="Update Category">
+        <input class="btn btn-primary" type="submit" name="update_category" value="更新類別">
     </div>
 </form>

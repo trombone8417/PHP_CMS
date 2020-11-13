@@ -25,7 +25,7 @@
                                     <input class="form-control" type="text" name="cat_title">
                                 </div>
                                 <div class="form-group">
-                                    <input class="btn btn-primary" type="submit" name="submit" value="Add Category">
+                                    <input class="btn btn-primary" type="submit" name="submit" value="新增類別">
                                 </div>
                             </form>
                             <!-- 編輯 -->
@@ -43,6 +43,8 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Category Title</th>
+                                        <th>編輯</th>
+                                        <th>刪除</th>
                                     </tr>
                                 </thead>
                                 <tbody>

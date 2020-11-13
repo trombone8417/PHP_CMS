@@ -31,7 +31,7 @@
                                     <i class="fa fa-file-text fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-<!-- 文章總數 -->
+                                    <!-- 文章總數 -->
                                     <?php
                                     $query = "SELECT * FROM posts";
                                     $select_all_post = mysqli_query($connection, $query);
@@ -59,7 +59,7 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                <!-- 評論總數 -->
+                                    <!-- 評論總數 -->
                                     <?php
                                     $query = "SELECT * FROM comments";
                                     $select_all_comments = mysqli_query($connection, $query);
@@ -87,7 +87,7 @@
                                     <i class="fa fa-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                <!-- 使用者總數 -->
+                                    <!-- 使用者總數 -->
                                     <?php
                                     $query = "SELECT * FROM users";
                                     $select_all_users = mysqli_query($connection, $query);
@@ -115,7 +115,7 @@
                                     <i class="fa fa-list fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                <!-- 類別總數 -->
+                                    <!-- 類別總數 -->
                                     <?php
                                     $query = "SELECT * FROM categories";
                                     $select_all_categories = mysqli_query($connection, $query);
@@ -138,26 +138,26 @@
             </div>
             <!-- /.row -->
             <?php
-// 文章公開總數
+            // 文章公開總數
             $query = "SELECT * FROM posts WHERE post_status = 'published'";
             $select_all_published_post = mysqli_query($connection, $query);
             $post_published_counts = mysqli_num_rows($select_all_published_post);
-// 文章非公開總數
+            // 文章非公開總數
             $query = "SELECT * FROM posts WHERE post_status = 'draft'";
             $select_all_draft_post = mysqli_query($connection, $query);
             $post_draft_counts = mysqli_num_rows($select_all_draft_post);
-// 評論公開總數
+            // 評論非公開總數
             $query = "SELECT * FROM comments WHERE comment_status = 'unapproved'";
             $unapproved_comments_query = mysqli_query($connection, $query);
             $unapproved_comment_counts = mysqli_num_rows($unapproved_comments_query);
-// 評論非公開總數
+            // 訂閱者總數
             $query = "SELECT * FROM users WHERE user_role = 'subscriber'";
             $select_all_subscribers = mysqli_query($connection, $query);
             $subscriber_counts = mysqli_num_rows($select_all_subscribers);
 
             ?>
             <div class="row ">
-<!-- google長條圖統計 -->
+                <!-- google長條圖統計 -->
                 <div id="top_x_div" style="width: 95%; height: 300px; margin : auto;
 "></div>
             </div>
@@ -168,7 +168,7 @@
     <!-- /#page-wrapper -->
 
     <?php include "includes/admin_footer.php" ?>
-<!-- google長條圖統計javascript -->
+    <!-- google長條圖統計javascript -->
     <script type="text/javascript">
         google.charts.load('current', {
             'packages': ['bar']
@@ -181,7 +181,7 @@
 
                 <?php
                 // 標題
-                $element_text = ['All Posts', 'Active Posts', 'Draft Posts', 'Comments', 'Pending Comments', 'Users', 'Subscribers', 'Categories'];
+                $element_text = ['所有文章', '公開文章', '私人文章', '評論', '未公開評論', '使用者', '訂閱者', '類別'];
                 // 長條圖
                 $element_count = [$post_counts, $post_published_counts, $post_draft_counts, $comment_counts, $unapproved_comment_counts, $user_counts, $subscriber_counts, $categories_counts];
                 for ($i = 0; $i < 8; $i++) {
