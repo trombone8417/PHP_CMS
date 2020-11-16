@@ -10,29 +10,10 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
             <?php
-            // 每頁文章數
-            $per_page = 5;
-            if (isset($_GET['page'])) {
-                $page = $_GET['page'];
-            } else {
-                $page = "";
-            }
 
-            if ($page == "" || $page == 1) {
-                $page1 = 0;
-            } else {
-                $page1 = ($page*$per_page)-$per_page;
-            }
-            
-$post_query_count = "SELECT * FROM posts";
-$find_count = mysqli_query($connection, $post_query_count);
-// 計算文章總數
-$count = mysqli_num_rows($find_count);
-// ceil() 函數向上捨入為最接近的整數。
-// 分頁數量
-$count = ceil($count / $per_page);
 
-            $query = "SELECT * FROM posts LIMIT $page1, $per_page";
+
+            $query = "SELECT * FROM posts WHERE post_status = 'published' ";
             $select_all_posts_query = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
                 $post_id = $row['post_id'];
@@ -79,17 +60,6 @@ $count = ceil($count / $per_page);
 
     </div>
     <!-- /.row -->
+
     <hr>
-    <ul class="pager">
-    <?php 
-    for ($i=1; $i <= $count; $i++) { 
-        if($i == $page){
-            // 連接被按下的時候
-        echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>";
-    }else {
-        echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
-    }
-    }
-    ?>
-    </ul>
     <?php include "includes/footer.php"; ?>

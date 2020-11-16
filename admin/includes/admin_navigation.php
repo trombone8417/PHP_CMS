@@ -1,3 +1,4 @@
+
 <!-- 管理者上方狀態列 -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -12,6 +13,8 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
+                
+                <li><a href="">使用者上線人數: <span class="usersonline"></span></a></li>
                 <li><a href="../index.php">Blog首頁</a></li>
            
                 <li class="dropdown">

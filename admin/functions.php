@@ -1,11 +1,48 @@
 <?php
+
+function users_online()
+{
+   
+        global $connection;
+        if (!$connection) {
+            session_start();
+            include("../includes/db.php");
+    
+            $session = session_id();
+            $time = time();
+            // 幾秒以內上線人數
+            $time_out_in_seconds = 05;
+            $time_out = $time - $time_out_in_seconds;
+    
+            $query = "SELECT * FROM users_online WHERE session = '$session'";
+            $send_query = mysqli_query($connection, $query);
+            $count = mysqli_num_rows($send_query);
+    
+            if ($count == NULL) {
+                // 第一次上線插入session
+                $insert_session_query = "INSERT INTO users_online (session, time) VALUES ('$session','$time')";
+                mysqli_query($connection, $insert_session_query);
+            } else {
+                // 之後上線更新session
+                mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
+            }
+            // 計算幾秒以內上線人數
+            $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out'");
+            // 註冊上線人數
+            echo $count_user = mysqli_num_rows($users_online_query);
+        }
+    
+}
+// call function
+users_online();
+
 // 確認SQL是否執行成功
-function confirmQuery($result) {
+function confirmQuery($result)
+{
     global $connection;
     if (!$result) {
         // 未執行成功，報錯
         die("QUERY FAILED ." . mysqli_error($connection));
-       
     }
     return $result;
 }
