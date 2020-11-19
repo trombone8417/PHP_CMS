@@ -25,9 +25,9 @@ if (isset($_POST['login'])) {
         $db_user_role = $row['user_role'];
     }
     // 確認加密密碼
-    $password = crypt($password, $db_user_password);
+    // $password = crypt($password, $db_user_password);
     // 驗證使用者名稱以及密碼是否正確
-    if ($username === $db_username && $password === $db_user_password) {
+    if (password_verify($password, $db_user_password)) {
         // SESSION儲存資訊
         $_SESSION['username'] = $db_username;
         $_SESSION['firstname'] = $db_user_firstname;
