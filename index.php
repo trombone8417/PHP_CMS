@@ -21,28 +21,41 @@
             if ($page == "" || $page == 1) {
                 $page1 = 0;
             } else {
-                $page1 = ($page*$per_page)-$per_page;
+                $page1 = ($page * $per_page) - $per_page;
+            }
+            // 若角色為admin的話，顯示全部文章
+            if (isset($_SESSION['user_role']) && $_SESSION['user_role']=='admin') {
+                $post_query_count = "SELECT * FROM posts ";
+            }
+            else {
+                // 其他角色顯示部分文章
+                $post_query_count = "SELECT * FROM posts WHERE post_status = 'published'";
             }
             
-$post_query_count = "SELECT * FROM posts";
-$find_count = mysqli_query($connection, $post_query_count);
-// 計算文章總數
-$count = mysqli_num_rows($find_count);
-// ceil() 函數向上捨入為最接近的整數。
-// 分頁數量
-$count = ceil($count / $per_page);
-
+            $find_count = mysqli_query($connection, $post_query_count);
+            // 計算文章總數
+            $count = mysqli_num_rows($find_count);
+            // 若文章數小於1(沒有文章)的話，顯示沒有文章
+            if ($count < 1) {
+                echo "<div class='alert alert-danger text-center' role='alert'>
+                沒有文章
+              </div>";
+            }else{
+            // ceil() 函數向上捨入為最接近的整數。
+            // 分頁數量
+            $count = ceil($count / $per_page);
+            // 分頁第幾頁文章
             $query = "SELECT * FROM posts LIMIT $page1, $per_page";
             $select_all_posts_query = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
                 $post_id = $row['post_id'];
                 $post_title = $row['post_title'];
-                $post_author = $row['post_author'];
+                $post_author = $row['post_user'];
                 $post_date = $row['post_date'];
                 $post_image = $row['post_image'];
                 $post_content = substr($row['post_content'], 0, 100);
                 $post_status = $row['post_status'];
-                if ($post_status == 'published') {
+                
 
             ?>
 
@@ -81,15 +94,16 @@ $count = ceil($count / $per_page);
     <!-- /.row -->
     <hr>
     <ul class="pager">
-    <?php 
-    for ($i=1; $i <= $count; $i++) { 
-        if($i == $page){
-            // 連接被按下的時候
-        echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>";
-    }else {
-        echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
-    }
-    }
-    ?>
+        <?php
+        for ($i = 1; $i <= $count; $i++) {
+            if ($i == $page) {
+                // 分頁第幾頁連結被按下的時候，class='active_link'
+                echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>";
+            } else {
+                // 其他分頁
+                echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+            }
+        }
+        ?>
     </ul>
     <?php include "includes/footer.php"; ?>

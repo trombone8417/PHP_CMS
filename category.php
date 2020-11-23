@@ -13,10 +13,21 @@
 
                 if(isset($_GET['category'])){
                     $post_category_id = $_GET['category'];
-                }
+                    // 若角色為admin的話，顯示全部文章
+                    if (isset($_SESSION['user_role']) && $_SESSION['user_role']=='admin') {
+                        $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id ";
+                    }
+                    else {
+                        // 其他角色顯示部分文章
+                        $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id AND post_status = 'published' ";
+                    }
 
-                $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id  ";
+                
                 $select_all_posts_query = mysqli_query($connection, $query);
+                // 若文章數小於1的話，顯示沒有文章
+                if (mysqli_num_rows($select_all_posts_query)<1) {
+                    echo "<div class='alert alert-danger text-center' role='alert'>沒有文章</div>";
+                }else{
                          while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
                              $post_id = $row['post_id'];
                              $post_title = $row['post_title'];
@@ -47,7 +58,13 @@
 
                 <hr>
 
-                <?php } ?>
+                <?php } } } else {
+                    header("Location: index.php");
+                }
+                
+                
+                
+                ?>
             
             </div>
 

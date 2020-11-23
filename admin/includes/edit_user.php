@@ -87,11 +87,7 @@ if (isset($_GET['edit_user'])) {
 
         </select>
     </div>
-    <!--     
-    <div class="form-group">
-        <label for="post_image">Post Image</label>
-        <input type="file" class="form-control" name="image">
-    </div> -->
+   
 
 
     <div class="form-group">

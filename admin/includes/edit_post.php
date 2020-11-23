@@ -57,7 +57,7 @@ if(isset($_POST['update_post'])){
     $update_post_query = mysqli_query($connection,$query);
     confirmQuery($update_post_query);
     // 更新成功
-    echo"<p class='bg-success'>Post Updated. <a href='../post.php?p_id={$the_post_id} '>View Post</a> or <a href='posts.php'>Edit More Posts</p>";
+    echo"<p class='bg-success'>Post Updated. <a href='../post.php?p_id={$the_post_id}'>View Post</a> or <a href='posts.php'>Edit More Posts</a></p>";
     
 }
 ?>
@@ -81,14 +81,12 @@ if(isset($_POST['update_post'])){
             ?>
         </select>
     </div>
-    <!-- <div class="form-group">
-        <label for="post_user">作者</label>
-        <input value="<?php echo $post_user; ?>" type="text" class="form-control" name="post_user">
-    </div> -->
+    
     <div class="form-group">
         <label for="category">作者</label>
     <!-- 下拉選單 -->
         <select name="post_user" id="">
+        <?php echo "<option value='{$post_user}'>{$post_user}</option>"; ?>
         <?php
         // 列出所有作者
             $query = "SELECT * FROM users ";
