@@ -38,13 +38,20 @@ if (isset($_POST['checkBoxArray'])) {
                     $post_category_id = $row['post_category_id'];
                     $post_date = $row['post_date'];
                     $post_author = $row['post_author'];
+                    $post_user = $row['post_user'];
                     $post_status = $row['post_status'];
                     $post_image = $row['post_image'];
                     $post_tags = $row['post_tags'];
                     $post_content = $row['post_content'];
+                    // // 若標籤為空的話
+                    // if (empty($post_tags)) {
+                    //     // 插入沒有標籤
+                    //     $post_tags = "Not tags";
+                    // }
                 }
-                $query = "INSERT INTO posts(post_category_id, post_title, post_date, post_author, post_status, post_image, post_tags, post_content) ";
-                $query .= "VALUES({$post_category_id}, '{$post_title}', now(), '{$post_author}', '{$post_status}', '{$post_image}', '{$post_tags}', '{$post_content}')";
+                $query = "INSERT INTO posts(post_category_id, post_title, post_date, post_author, post_user, post_status, post_image, post_tags, post_content) ";
+                $query .= "VALUES({$post_category_id}, '{$post_title}', now(), '{$post_author}', '{$post_user}','{$post_status}', '{$post_image}', '{$post_tags}', '{$post_content}')";
+                
                 $copy_query = mysqli_query($connection, $query);
 
                 confirmQuery($select_post_query);

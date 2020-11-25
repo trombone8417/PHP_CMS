@@ -124,3 +124,32 @@ function deleteCategories()
         header("Location: categories.php");
     }
 }
+// 計算儀錶板小部件資料(各個資料總數)
+function recordCount($table)
+{
+    global $connection;
+    // 選擇要計算的資料表
+    $query = "SELECT * FROM " . $table ;
+    $select_all_post = mysqli_query($connection, $query);
+    // 計算數量
+    $result = mysqli_num_rows($select_all_post);
+    confirmQuery($result);
+    return $result;
+}
+// 計算狀態
+function checkStatus($table, $column, $status)
+{
+    global $connection;
+    $query = "SELECT * FROM $table WHERE $column = '$status'";
+    $select_all_published_post = mysqli_query($connection, $query);
+    return  mysqli_num_rows($select_all_published_post);
+}
+// 計算使用者角色
+function checkUserRole($table, $column, $role)
+{
+    global $connection;
+    $query = "SELECT * FROM $table WHERE $column = '$role'";
+    $select_all_subscribers = mysqli_query($connection, $query);
+    return  mysqli_num_rows($select_all_subscribers);
+}
+

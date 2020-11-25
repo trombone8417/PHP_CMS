@@ -18,7 +18,12 @@
     </div>
 
     <!-- Login -->
+    
     <div class="well">
+    <?php if(isset($_SESSION['user_role'])): ?>
+        <h4>Logged in as <?php echo $_SESSION['username']; ?></h4>
+        <a href="includes/logout.php" class="btn btn-primary">登出</a>
+    <?php else: ?>
         <h4>登入</h4>
         <form action="includes/login.php" method="post">
             <div class="input-group">
@@ -30,6 +35,8 @@
             <button class="btn btn-primary" name="login" type="submit">Submit</button>
         </form>
         <!-- /.input-group -->
+    <?php endif; ?>
+        
     </div>
 
     <!-- Blog Categories Well -->

@@ -2,9 +2,9 @@
 <?php include "includes/admin_header.php" ?>
 <div id="wrapper">
 
-<?php
- 
-?>
+    <?php
+
+    ?>
     <!-- Navigation -->
     <?php include "includes/admin_navigation.php" ?>
 
@@ -19,7 +19,7 @@
                         Welcome to admin
                         <small> <?php echo $_SESSION['username'] ?></small>
                     </h1>
-                    
+
 
                 </div>
             </div>
@@ -37,12 +37,11 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <!-- 文章總數 -->
-                                    <?php
-                                    $query = "SELECT * FROM posts";
-                                    $select_all_post = mysqli_query($connection, $query);
-                                    $post_counts = mysqli_num_rows($select_all_post);
-                                    echo "<div class='huge'>{$post_counts}</div>"
-                                    ?>
+
+
+
+                                    <div class='huge'><?php echo $post_counts = recordCount('posts'); ?></div>
+
                                     <div>文章總數</div>
                                 </div>
                             </div>
@@ -65,12 +64,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <!-- 評論總數 -->
-                                    <?php
-                                    $query = "SELECT * FROM comments";
-                                    $select_all_comments = mysqli_query($connection, $query);
-                                    $comment_counts = mysqli_num_rows($select_all_comments);
-                                    echo "<div class='huge'>{$comment_counts}</div>"
-                                    ?>
+                                    <div class='huge'><?php echo $comment_counts = recordCount('comments'); ?></div>
                                     <div>評論總數</div>
                                 </div>
                             </div>
@@ -93,12 +87,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <!-- 使用者總數 -->
-                                    <?php
-                                    $query = "SELECT * FROM users";
-                                    $select_all_users = mysqli_query($connection, $query);
-                                    $user_counts = mysqli_num_rows($select_all_users);
-                                    echo "<div class='huge'>{$user_counts}</div>"
-                                    ?>
+                                    <div class='huge'><?php echo $user_counts = recordCount('users'); ?></div>
                                     <div>使用者總數</div>
                                 </div>
                             </div>
@@ -121,12 +110,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <!-- 類別總數 -->
-                                    <?php
-                                    $query = "SELECT * FROM categories";
-                                    $select_all_categories = mysqli_query($connection, $query);
-                                    $categories_counts = mysqli_num_rows($select_all_categories);
-                                    echo "<div class='huge'>{$categories_counts}</div>"
-                                    ?>
+                                    <div class='huge'><?php echo $categories_counts = recordCount('categories'); ?></div>
                                     <div>類別總數</div>
                                 </div>
                             </div>
@@ -144,21 +128,15 @@
             <!-- /.row -->
             <?php
             // 文章公開總數
-            $query = "SELECT * FROM posts WHERE post_status = 'published'";
-            $select_all_published_post = mysqli_query($connection, $query);
-            $post_published_counts = mysqli_num_rows($select_all_published_post);
+            
+            $post_published_counts = checkStatus('posts', 'post_status','published');
             // 文章非公開總數
-            $query = "SELECT * FROM posts WHERE post_status = 'draft'";
-            $select_all_draft_post = mysqli_query($connection, $query);
-            $post_draft_counts = mysqli_num_rows($select_all_draft_post);
+            $post_draft_counts = checkStatus('posts', 'post_status','draft');
             // 評論非公開總數
-            $query = "SELECT * FROM comments WHERE comment_status = 'unapproved'";
-            $unapproved_comments_query = mysqli_query($connection, $query);
-            $unapproved_comment_counts = mysqli_num_rows($unapproved_comments_query);
+            $unapproved_comment_counts = checkStatus('comments', 'comment_status','unapproved');
             // 訂閱者總數
-            $query = "SELECT * FROM users WHERE user_role = 'subscriber'";
-            $select_all_subscribers = mysqli_query($connection, $query);
-            $subscriber_counts = mysqli_num_rows($select_all_subscribers);
+            
+            $subscriber_counts = checkUserRole('users', 'user_role','subscriber');
 
             ?>
             <div class="row ">
