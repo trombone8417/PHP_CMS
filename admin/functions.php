@@ -152,4 +152,110 @@ function checkUserRole($table, $column, $role)
     $select_all_subscribers = mysqli_query($connection, $query);
     return  mysqli_num_rows($select_all_subscribers);
 }
+function is_admin($username = ''){
+    global $connection;
+    $query = "SELECT user_role FROM users WHERE username = '$username'";
+    $result = mysqli_query($connection, $query);
+    $row = mysqli_fetch_array($result);
+    if ($row['user_role'] == 'admin') {
+        return true;
+    }else{
+        return false;
+    }
+}
+// 判斷使用者是否註冊過
+function username_exists($username)
+{
+    global $connection;
+    // 資料庫查找使用者名稱
+    $query = "SELECT username FROM users WHERE username = '$username'";
+    $result = mysqli_query($connection, $query);
+    confirmQuery($result);
+    // 判斷使用者名稱總數是否大於零
+    if (mysqli_num_rows($result) > 0) {
+        // 有
+        return true;
+    } else {
+        // 沒有
+        return false;
+    }
+    
+}
+
+// 判斷email是否註冊過
+function email_exists($email)
+{
+    global $connection;
+    // 資料庫查找email
+    $query = "SELECT user_email FROM user_email WHERE email = '$email'";
+    $result = mysqli_query($connection, $query);
+    confirmQuery($result);
+    // 判斷email總數是否大於零
+    if (mysqli_num_rows($result) > 0) {
+        // 有
+        return true;
+    } else {
+        // 沒有
+        return false;
+    }
+    
+}
+function register_user($username, $email, $password)
+{
+    global $connection;
+    
+       
+    if(username_exists($username)){
+        
+    }
+
+    if (!empty($username) && !empty($email) && !empty($password)) {
+        $username = mysqli_real_escape_string($connection, $username);
+        $email = mysqli_real_escape_string($connection, $email);
+        $password = mysqli_real_escape_string($connection, $password);
+        $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
+        $query = "INSERT INTO users (username, user_email, user_password, user_role) ";
+        $query .= "VALUES('{$username}','{$email}', '{$password}', 'subscriber')";
+        $register_user_query = mysqli_query($connection, $query);
+        confirmQuery($register_user_query);
+    }
+}
+function login_user($username,$password){
+    global $connection;
+    $username = trim($username);
+    $password = trim($password);
+    // mysqli_real_escape_string 轉義在 SQL 語句中使用的字符串中的特殊字符
+    $username = mysqli_real_escape_string($connection, $username);
+    $password = mysqli_real_escape_string($connection, $password);
+
+    $query = "SELECT * FROM users WHERE username = '{$username}' ";
+    $select_user_query = mysqli_query($connection, $query);
+    if (!$select_user_query) {
+        die("QUERY FAILED" . mysqli_error($connection));
+    }
+
+    while ($row = mysqli_fetch_array($select_user_query)) {
+        $db_user_id = $row['user_id'];
+        $db_username = $row['username'];
+        $db_user_password = $row['user_password'];
+        $db_user_firstname = $row['user_firstname'];
+        $db_user_lastname = $row['user_lastname'];
+        $db_user_role = $row['user_role'];
+    }
+    // 確認加密密碼
+    // $password = crypt($password, $db_user_password);
+    // 驗證使用者名稱以及密碼是否正確
+    if (password_verify($password, $db_user_password)) {
+        // SESSION儲存資訊
+        $_SESSION['username'] = $db_username;
+        $_SESSION['firstname'] = $db_user_firstname;
+        $_SESSION['lastname'] = $db_user_lastname;
+        $_SESSION['user_role'] = $db_user_role;
+        // 導到管理者介面
+        header("Location: ../admin ");
+    } else {
+        // 錯誤導回首頁
+        header("Location: ../index.php");
+    }
+}
 

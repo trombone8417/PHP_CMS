@@ -1,6 +1,6 @@
 
 <?php
-
+ob_start();
 // PHP資料庫連線
 $db['db_host'] = "127.0.0.1";
 $db['db_user'] = "root";

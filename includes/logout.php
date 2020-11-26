@@ -1,3 +1,5 @@
+
+<?php ob_start(); ?>
 <?php session_start(); ?>
 <?php
 // 清空SESSION資料
