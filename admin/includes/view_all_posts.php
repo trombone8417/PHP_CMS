@@ -79,7 +79,7 @@ if (isset($_POST['checkBoxArray'])) {
             </select>
         </div>
         <div class="col-xs-4">
-            <input type="submit" name="submit" class="btn btn-success" value="Apply">
+            <input type="submit" name="submit" class="btn btn-success" value="送出">
             <a class="btn btn-primary" href="posts.php?source=add_post">新增文章</a>
         </div>
 
@@ -155,11 +155,19 @@ if (isset($_POST['checkBoxArray'])) {
                 echo "<td>$post_views_count</td>";
 
                 // 查看文章
-                echo "<td><a href='../post.php?p_id={$post_id}'>View Post</a></td>";
+                echo "<td><a class='btn btn-primary' href='../post.php?p_id={$post_id}'>View Post</a></td>";
                 // 編輯文章
-                echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
+                echo "<td><a class='btn btn-info' href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
                 // 確認是否刪除
-                echo "<td><a rel='$post_id' href='javascript:void(0)' class='delete_link' >Delete</a></td>";
+                // echo "<td><a rel='$post_id' href='javascript:void(0)' class='delete_link' >Delete</a></td>";
+                ?>
+                <form method="post">
+                    <input type="hidden" name="post_id" value="<?php echo $post_id ?>">
+                    <?php
+                    echo '<td><input class="btn btn-danger" type="submit"   name="delete" value="Delete"></td>';
+                    ?>
+                </form>
+                <?php
                 echo "</tr>";
 
                 echo "</tr>";
@@ -173,8 +181,8 @@ if (isset($_POST['checkBoxArray'])) {
 
 <?php
 
-if (isset($_GET['delete'])) {
-    $the_post_id = $_GET['delete'];
+if (isset($_POST['delete'])) {
+    $the_post_id = $_POST['post_id'];
     $query = "DELETE FROM posts WHERE post_id = {$the_post_id} ";
     $delete_query = mysqli_query($connection, $query);
     header("Location: posts.php");
@@ -182,14 +190,3 @@ if (isset($_GET['delete'])) {
 
 ?>
 
-<script>
-    $(document).ready(function() {
-        $(".delete_link").on('click', function() {
-            var id = $(this).attr("rel");
-            var delete_url = "posts.php?delete=" + id + " ";
-            $(".modal_delete_link").attr("href", delete_url);
-            $("#myModal").modal('show');
-        });
-
-    });
-</script>

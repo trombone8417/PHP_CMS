@@ -1,5 +1,5 @@
 <?php
-
+// 轉址
 function redirect($location)
 {
     header("Location:" . $location);
@@ -8,15 +8,15 @@ function redirect($location)
 
 function ifItIsMethod($method = null)
 {
-    if ($_SERVER['REQUEST_METHOD'] == strtoupper($method)) { {
-            return true;
-        }
-        return false;
+    if ($_SERVER['REQUEST_METHOD'] == strtoupper($method)) {
+        return true;
     }
+    return false;
 }
-
+// 確認是否登入
 function isLoggedIn()
 {
+    // 使否有角色的session值
     if (isset($_SESSION['user_role'])) {
         return true;
     }
@@ -28,7 +28,7 @@ function checkIfUserIsLoggedInAndRedirect($redirectLocation=null){
         redirect($redirectLocation);
     }
 }
-
+// 線上使用者人數
 function users_online()
 {
 
@@ -48,7 +48,7 @@ function users_online()
         $count = mysqli_num_rows($send_query);
 
         if ($count == NULL) {
-            // 第一次上線插入session
+            // 第一次上線新增session
             $insert_session_query = "INSERT INTO users_online (session, time) VALUES ('$session','$time')";
             mysqli_query($connection, $insert_session_query);
         } else {
@@ -74,7 +74,7 @@ function confirmQuery($result)
     }
     return $result;
 }
-
+// 新增類別
 function insert_categories()
 {
     global $connection;
@@ -152,14 +152,19 @@ function checkUserRole($table, $column, $role)
     $select_all_subscribers = mysqli_query($connection, $query);
     return  mysqli_num_rows($select_all_subscribers);
 }
+// 確認是否為admin角色
 function is_admin($username = ''){
     global $connection;
+    // 查詢使用者角色
     $query = "SELECT user_role FROM users WHERE username = '$username'";
     $result = mysqli_query($connection, $query);
     $row = mysqli_fetch_array($result);
+    // 若使用者角色為admin
     if ($row['user_role'] == 'admin') {
+        // 回傳值true
         return true;
     }else{
+        // 回傳值false
         return false;
     }
 }
@@ -200,29 +205,27 @@ function email_exists($email)
     }
     
 }
+// 使用者註冊
 function register_user($username, $email, $password)
 {
     global $connection;
-    
-       
-    if(username_exists($username)){
-        
-    }
-
-    if (!empty($username) && !empty($email) && !empty($password)) {
-        $username = mysqli_real_escape_string($connection, $username);
-        $email = mysqli_real_escape_string($connection, $email);
-        $password = mysqli_real_escape_string($connection, $password);
-        $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
-        $query = "INSERT INTO users (username, user_email, user_password, user_role) ";
-        $query .= "VALUES('{$username}','{$email}', '{$password}', 'subscriber')";
-        $register_user_query = mysqli_query($connection, $query);
-        confirmQuery($register_user_query);
-    }
+    $username = mysqli_real_escape_string($connection, $username);
+    $email = mysqli_real_escape_string($connection, $email);
+    $password = mysqli_real_escape_string($connection, $password);
+    // 密碼加密
+    $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
+    $query = "INSERT INTO users (username, user_email, user_password, user_role) ";
+    $query .= "VALUES('{$username}','{$email}', '{$password}', 'subscriber')";
+    $register_user_query = mysqli_query($connection, $query);
+    confirmQuery($register_user_query);
 }
+// 使用者登入
 function login_user($username,$password){
     global $connection;
+    // trim 清除字串前後空白
+    // 帳號
     $username = trim($username);
+    // 密碼
     $password = trim($password);
     // mysqli_real_escape_string 轉義在 SQL 語句中使用的字符串中的特殊字符
     $username = mysqli_real_escape_string($connection, $username);
@@ -252,10 +255,10 @@ function login_user($username,$password){
         $_SESSION['lastname'] = $db_user_lastname;
         $_SESSION['user_role'] = $db_user_role;
         // 導到管理者介面
-        header("Location: ../admin ");
+        header("Location: /PHP_CMS/admin ");
     } else {
         // 錯誤導回首頁
-        header("Location: ../index.php");
+        header("Location: /PHP_CMS/index.php");
     }
 }
 
