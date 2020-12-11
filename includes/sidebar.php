@@ -1,3 +1,8 @@
+<?php
+if (ifItIsMethod('post')) {
+    login_user($_POST['username'], $_POST['password']);
+}
+?>
 <!-- 側邊欄 -->
 <div class="col-md-4">
 
@@ -25,7 +30,7 @@
         <a href="includes/logout.php" class="btn btn-primary">登出</a>
     <?php else: ?>
         <h4>登入</h4>
-        <form action="includes/login.php" method="post">
+        <form method="post">
             <div class="input-group">
                 <input name="username" type="text" class="form-control" placeholder="Enter Username">
             </div>

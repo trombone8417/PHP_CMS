@@ -14,7 +14,7 @@
             if (isset($_GET['category'])) {
                 $post_category_id = $_GET['category'];
                 // 若角色為admin的話，顯示全部文章
-                if (is_admin($_SESSION['username'])) {
+                if (isset($_SESSION['username']) && is_admin($_SESSION['username'])) {
                     $stmt1 = mysqli_prepare($connection, "SELECT post_id, post_title , post_author , post_date , post_image , post_content  FROM  posts  WHERE  post_category_id  = ?");
                 } else {
                     // 其他角色顯示部分文章
@@ -67,8 +67,7 @@
 
                     <hr>
 
-            <?php endwhile;
-            } else {
+            <?php endwhile; mysqli_stmt_close($stmt);}else {
                 header("Location: index.php");
             }
 

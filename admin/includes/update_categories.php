@@ -6,6 +6,7 @@
         // 編輯
         if(isset($_GET['edit'])){
         $cat_id = $_GET['edit'];
+        
         $query = "SELECT * FROM categories WHERE cat_id = $cat_id ";
         $select_categories_id = mysqli_query($connection, $query);
         while ($row = mysqli_fetch_assoc($select_categories_id)) {
@@ -19,11 +20,17 @@
     //  更新
         if (isset($_POST['update_category'])) {
             $the_cat_title = $_POST['cat_title'];
-            $query = "UPDATE categories SET cat_title = '{$the_cat_title}'  WHERE cat_id = {$cat_id} ";
-            $update_query = mysqli_query($connection, $query);
-            if (!$update_query) {
+            $stmt = mysqli_prepare($connection, "UPDATE categories SET cat_title = ?  WHERE cat_id = ? ");
+            mysqli_stmt_bind_param($stmt, 'si',$the_cat_title,$cat_id);
+            mysqli_stmt_execute($stmt);
+            
+            if (!$stmt) {
                 die("QUERY FAILED" . mysqli_error($connection));
             }
+            //結束語句
+            mysqli_stmt_close($stmt);
+            // 頁面重整
+            redirect("categories.php");
         }
     ?>
     </div>

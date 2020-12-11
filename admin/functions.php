@@ -84,14 +84,15 @@ function insert_categories()
         if ($cat_title == "" || empty($cat_title)) {
             echo "類別標題不得為空";
         } else {
-            $query = "INSERT INTO categories(cat_title) ";
-            $query .= "VALUE('{$cat_title}')";
-
-            $create_category_query = mysqli_query($connection, $query);
-            if (!$create_category_query) {
+            $stmt = mysqli_prepare($connection, "INSERT INTO categories(cat_title) VALUE(?) ");
+            mysqli_stmt_bind_param($stmt, 's',$cat_title);
+            mysqli_stmt_execute($stmt);
+            
+            if (!$stmt) {
                 die('Query FAILED' . mysqli_error($connection));
             }
         }
+        mysqli_stmt_close($stmt);
     }
 }
 
@@ -220,7 +221,8 @@ function register_user($username, $email, $password)
     confirmQuery($register_user_query);
 }
 // 使用者登入
-function login_user($username,$password){
+function login_user($username, $password)
+{
     global $connection;
     // trim 清除字串前後空白
     // 帳號
@@ -244,21 +246,22 @@ function login_user($username,$password){
         $db_user_firstname = $row['user_firstname'];
         $db_user_lastname = $row['user_lastname'];
         $db_user_role = $row['user_role'];
+        // 確認加密密碼
+        // $password = crypt($password, $db_user_password);
+        // 驗證使用者名稱以及密碼是否正確
+        if (password_verify($password, $db_user_password)) {
+            // SESSION儲存資訊
+            $_SESSION['username'] = $db_username;
+            $_SESSION['firstname'] = $db_user_firstname;
+            $_SESSION['lastname'] = $db_user_lastname;
+            $_SESSION['user_role'] = $db_user_role;
+            // 導到管理者介面
+            header("Location: /PHP_CMS/admin ");
+        } else {
+
+            return false;
+        }
     }
-    // 確認加密密碼
-    // $password = crypt($password, $db_user_password);
-    // 驗證使用者名稱以及密碼是否正確
-    if (password_verify($password, $db_user_password)) {
-        // SESSION儲存資訊
-        $_SESSION['username'] = $db_username;
-        $_SESSION['firstname'] = $db_user_firstname;
-        $_SESSION['lastname'] = $db_user_lastname;
-        $_SESSION['user_role'] = $db_user_role;
-        // 導到管理者介面
-        header("Location: /PHP_CMS/admin ");
-    } else {
-        // 錯誤導回首頁
-        header("Location: /PHP_CMS/index.php");
-    }
+    return true;
 }
 
