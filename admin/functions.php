@@ -193,7 +193,7 @@ function email_exists($email)
 {
     global $connection;
     // 資料庫查找email
-    $query = "SELECT user_email FROM user_email WHERE email = '$email'";
+    $query = "SELECT user_email FROM users WHERE user_email = '$email'";
     $result = mysqli_query($connection, $query);
     confirmQuery($result);
     // 判斷email總數是否大於零

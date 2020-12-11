@@ -1,0 +1,12 @@
+{
+    "name": "kuei/php_cms",
+    "require": {
+        "phpmailer/phpmailer": "^6.2"
+    },
+    "authors": [
+        {
+            "name": "trombone8417",
+            "email": "trombone8417@yahoo.com"
+        }
+    ]
+}
