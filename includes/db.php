@@ -18,6 +18,10 @@ foreach ($db as $key => $value) {
 
 // 連線
 $connection = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+
+$query = "SET NAMES utf8";
+mysqli_query($connection, $query);
+
 // 測試是否連線成功
 // if ($connection) {    
 //     echo "connected";

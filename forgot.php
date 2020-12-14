@@ -5,10 +5,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 require './vendor/autoload.php';
-require './classes/Config.php';
+// require './classes/Config.php';
+// composer dump-autoload -o
 $mail = new PHPMailer();
 
-if (!ifItIsMethod('get') && !isset($_GET['forgot'])) {
+if (!isset($_GET['forgot'])) {
     redirect('index.php');
 }
 if(ifItIsMethod('post')){
@@ -42,11 +43,11 @@ if(ifItIsMethod('post')){
                     // 標題亂碼處理方式
                     $mail->Subject =" =?utf-8?B?" . base64_encode("PHP_CMS 忘記密碼") . "?=";
                     // 信件內容
-                    $mail->Body = '<h3>test</h3>';
+                    $mail->Body = '<p>請點選重置密碼<a href="http://127.0.0.1/PHP_CMS/reset.php?email='.$email.'&token='.$token.'">http://127.0.0.1/PHP_CMS/reset.php?email='.$email.'&token='.$token.'</a></p>';
                     if ($mail->send()) {
-                        echo "IT WAS SENT";
+                        $emailSent = true;
                     }else{
-                        echo "NOT SENT";
+                        $emailSent = false;
                     }
                    
                     
@@ -72,7 +73,7 @@ if(ifItIsMethod('post')){
                     <div class="panel-body">
                         <div class="text-center">
 
-
+                            <?php if(!isset($emailSent)): ?>
                                 <h3><i class="fa fa-lock fa-4x"></i></h3>
                                 <h2 class="text-center">Forgot Password?</h2>
                                 <p>You can reset your password here.</p>
@@ -97,7 +98,9 @@ if(ifItIsMethod('post')){
                                     </form>
 
                                 </div><!-- Body-->
-
+                            <?php else: ?>
+                                <h2>Please check your email</h2>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

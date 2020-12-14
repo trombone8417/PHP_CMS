@@ -3,6 +3,11 @@
     "require": {
         "phpmailer/phpmailer": "^6.2"
     },
+    "autoload": {
+        "classmap": [
+            "classes"
+        ]
+    },
     "authors": [
         {
             "name": "trombone8417",

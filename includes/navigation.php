@@ -32,6 +32,7 @@
                         echo "<li class='$category_class'><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
                     }
                     ?>
+                    <li><a href="contact.php">聯絡我們</a></li>
                     <?php if (isLoggedIn()) : ?>
                         <li>
                             <a href="admin">管理者介面</a>
