@@ -45,7 +45,15 @@
             // 分頁數量
             $count = ceil($count / $per_page);
             // 分頁第幾頁文章
-            $query = "SELECT * FROM posts LIMIT $page1, $per_page";
+            // 若角色為admin的話，顯示文章(第幾頁)
+            if (isset($_SESSION['user_role']) && $_SESSION['user_role']=='admin') {
+                $query = "SELECT * FROM posts LIMIT $page1, $per_page ";
+            }
+            else {
+                // 其他角色顯示部分文章(第幾頁)
+                $query = "SELECT * FROM posts WHERE post_status = 'published'  LIMIT $page1, $per_page";
+            }
+            // $query = "SELECT * FROM posts LIMIT $page1, $per_page";
             $select_all_posts_query = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
                 $post_id = $row['post_id'];

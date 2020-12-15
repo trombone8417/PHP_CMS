@@ -28,19 +28,25 @@
                     mysqli_stmt_bind_param($stmt1, "i", $post_category_id);
                     mysqli_stmt_execute($stmt1);
                     mysqli_stmt_bind_result($stmt1, $post_id, $post_title, $post_author, $post_date, $post_image, $post_content);
+                    
                     $stmt = $stmt1;
                 } else {
                     // sql執行公開文章
                     mysqli_stmt_bind_param($stmt2, "is", $post_category_id, $published);
                     mysqli_stmt_execute($stmt2);
                     mysqli_stmt_bind_result($stmt2, $post_id, $post_title, $post_author, $post_date, $post_image, $post_content);
+                    
+                
                     $stmt = $stmt2;
                 }
-
+                // 避免文章數一直處於零
+                mysqli_stmt_store_result($stmt);
                 // 若文章數等於零的話，顯示沒有文章
                 if (mysqli_stmt_num_rows($stmt) === 0) {
                     echo "<div class='alert alert-danger text-center' role='alert'>沒有文章</div>";
                 }
+                
+                
                 // mysqli_stmt_fetch從準備好的語句中獲取結果到綁定變量中
                 while ($row = mysqli_stmt_fetch($stmt)) :
                    

@@ -4,6 +4,48 @@
 
 <!-- Navigation -->
 <?php include "includes/navigation.php"; ?>
+<?php 
+// 按讚
+if (isset($_POST['liked'])) {
+    $post_id = $_POST['post_id'];
+    $user_id = $_POST['user_id'];
+    // 1 = SELECT POST
+    // 撈出id文章的資料
+    $query = "SELECT * FROM posts WHERE post_id=$post_id";
+    $postResult = mysqli_query($connection, $query);
+    $post = mysqli_fetch_array($postResult);
+    // id文章的likes的數量
+    $likes = $post['likes'];
+    if (mysqli_num_rows($postResult) >= 1) {
+        echo $post['post_id'];
+    }
+    // 2 = UPDATE POST WITH LIKES
+    // 按讚+1
+    mysqli_query($connection, "UPDATE posts SET likes=$likes+1 WHERE post_id=$post_id");
+    // 3 = CREATE LIKES FOR POST
+    mysqli_query($connection, "INSERT INTO likes(user_id,post_id) VALUES ($user_id,$post_id)");
+    exit();
+}
+// 取消按讚
+if (isset($_POST['unliked'])) {
+    $post_id = $_POST['post_id'];
+    $user_id = $_POST['user_id'];
+    // 1 = SELECT POST
+    // 撈出id文章的資料
+    $query = "SELECT * FROM posts WHERE post_id=$post_id";
+    $postResult = mysqli_query($connection, $query);
+    $post = mysqli_fetch_array($postResult);
+    // id文章的likes的數量
+    $likes = $post['likes'];
+    
+    // 2 刪除按讚資料
+    mysqli_query($connection, "DELETE FROM likes WHERE post_id=$post_id AND user_id=$user_id");
+    // 3 按讚-1
+    mysqli_query($connection, "UPDATE posts SET likes=$likes-1 WHERE post_id=$post_id");
+    
+    exit();
+}
+?>
 <!-- Page Content -->
 <div class="container">
     <div class="row">
@@ -58,9 +100,25 @@
                 <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
                 <hr>
                 <p><?php echo $post_content ?></p>
-
-
                 <hr>
+               
+                <?php if(isLoggedIn()){ ?>
+                    
+                <div class="row">
+                    <p class="pull-right"><a 
+                    class="<?php echo userLikedThisPost($the_post_id)? 'unlike' : 'like'; ?>"
+                     href="post.php?p_id=<?php echo $the_post_id; ?>"><span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="<?php echo userLikedThisPost($the_post_id)? '取消按讚' : '按讚'; ?>"></span>&nbsp;<?php echo userLikedThisPost($the_post_id)? 'unlike' : 'like'; ?></a></p>
+                </div>
+
+                <?php } else { ?>
+                    <div class="row">
+                    <p class="pull-right login-to-post">You need to <a href="login.php">Login</a> to like </p>
+                </div>
+                <?php } ?>
+                <div class="row">
+                    <p class="pull-right likes">Like:<?php getPostlikes($the_post_id); ?></p>
+                </div>
+                <div class="clearfix"></div>
 
             <?php } 
             
@@ -152,4 +210,38 @@
     <!-- /.row -->
 
     <hr>
+    
     <?php include "includes/footer.php"; ?>
+    <script>
+        $(document).ready(function(){
+            // 顯示tooltip
+            $("[data-toggle='tooltip']").tooltip();
+            var post_id = <?php echo $the_post_id; ?>;
+            var user_id = <?php echo loggedInUserId() ?>;
+            // 按讚
+            $('.like').click(function(){
+                $.ajax({
+                    url: "post.php?p_id=<?php echo $the_post_id; ?>",
+                    type:'post',
+                    data: {
+                        'liked':1,
+                        'post_id':post_id,
+                        'user_id':user_id
+                    }
+                });
+            });
+            // 取消按讚
+            $('.unlike').click(function(){
+                $.ajax({
+                    url: "post.php?p_id=<?php echo $the_post_id; ?>",
+                    type:'post',
+                    data: {
+                        'unliked':1,
+                        'post_id':post_id,
+                        'user_id':user_id
+                    }
+                });
+            });
+        });
+
+    </script>

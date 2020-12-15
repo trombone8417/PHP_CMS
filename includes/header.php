@@ -28,5 +28,9 @@
     <![endif]-->
 
 </head>
-
+<style>
+    a.like, a.unlike, p.likes,p.login-to-post{
+    font-size: 22px !important;
+}
+</style>
 <body>
